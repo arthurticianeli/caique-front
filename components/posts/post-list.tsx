@@ -1,4 +1,5 @@
-import PostsGrid, { IPost } from "./posts-grid";
+import { IPost } from "@/interfaces/IPost";
+import PostsGrid from "./posts-grid";
 
 const PostList = ({ posts }: { posts: IPost[] }) => {
   return (

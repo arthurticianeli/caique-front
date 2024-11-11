@@ -1,17 +1,22 @@
-import { IPost } from "@/interfaces/IPost";
-import PostItem from "./post-item";
+import { ReactNode } from "react";
 
-interface IPostsGridProps {
-  posts: IPost[];
+interface PostsGridProps {
+  readonly children: ReactNode;
+  readonly horizontal?: boolean;
 }
 
-function PostsGrid({ posts }: IPostsGridProps) {
+function PostsGrid({ children, horizontal = true }: PostsGridProps) {
   return (
-    <ul>
-      {posts.map((post) => (
-        <PostItem post={post} key={post.slug} />
-      ))}
-    </ul>
+    <div
+      className="container grid-content"
+      style={{
+        display: "flex",
+        flexDirection: horizontal ? "row" : "column",
+        flexWrap: horizontal ? "wrap" : "nowrap",
+      }}
+    >
+      {children}
+    </div>
   );
 }
 

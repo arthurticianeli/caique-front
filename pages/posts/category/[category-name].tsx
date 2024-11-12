@@ -1,8 +1,8 @@
 import LoadingComponent from "@/components/loading/loading-component";
-import PostList from "@/components/posts/post-list";
+
 import useFetch from "@/hooks/useFetch";
 import { IPost } from "@/interfaces/IPost";
-import { postsMock } from "@/pages";
+import { postsMock } from "@/mocks/postsMock";
 
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -32,7 +32,6 @@ function CategoryPage() {
         />
       </Head>
       <h1>{category}</h1>
-      <PostList posts={posts} />
     </div>
   );
 }

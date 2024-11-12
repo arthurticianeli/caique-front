@@ -1,24 +1,13 @@
 import { IPost } from "@/interfaces/IPost";
 import { formatDate } from "date-fns";
 import Link from "next/link";
+import "./styles.css";
 
-export enum EPostSize {
-  SMALL = "small",
-  MEDIUM = "medium",
-  LARGE = "large",
-}
 interface IPostItemProps {
   readonly post: IPost;
-  readonly size: EPostSize;
-  readonly postFull?: boolean;
+  readonly type: "large" | "medium" | "small";
   readonly showImage?: boolean;
 }
-
-const postSizeClasses = {
-  [EPostSize.SMALL]: "col-md-4",
-  [EPostSize.MEDIUM]: "col-md-6",
-  [EPostSize.LARGE]: "col-md-12",
-};
 
 const tagItemsMock = [
   { name: "Design", link: "#" },
@@ -27,22 +16,14 @@ const tagItemsMock = [
   { name: "Web-design", link: "#" },
   { name: "Marketing", link: "#" },
   { name: "Research", link: "#" },
-  { name: "Managment", link: "#" },
 ];
 
-function PostItem({
-  post,
-  size,
-  postFull = true,
-  showImage = false,
-}: IPostItemProps) {
+function PostItem({ post, type, showImage = true }: IPostItemProps) {
   const { title, content, image, date, slug } = post;
 
   const postPath = `/posts/${slug}`;
+  //   const imagePath = `/images/posts/post-slug/423-500x1000.jpg`;
   const imagePath = `/images/posts/post-slug/1024-1000x1000.jpg`;
-  // const imagePath = `/images/posts/post-slug/423-500x1000.jpg`;
-  // const imagePath = `/images/posts/post-slug/${image}`;
-  // const imagePath = `/images/posts/${slug}/${image}`;
 
   let formattedDate = "Data inválida";
 
@@ -53,121 +34,63 @@ function PostItem({
     }
   }
 
-  const endIndex = content.indexOf(" ", 150);
-  const truncatedContent =
-    content.substring(0, endIndex > 0 ? endIndex : 150) + "...";
-
-  const showImageSmallSize = postFull || showImage;
+  const firstSentence = content.split(". ")[0] + ".";
 
   return (
-    <div className={`card ${postSizeClasses[size]}`}>
-      <Link href={postPath}>
-        {postFull ? (
-          <article className="card-body">
-            <div
-              className="card-img-top"
-              style={{
-                width: "",
-                margin: "auto",
-                backgroundColor: "#f0f0f0",
-                maxWidth: "600px",
-                maxHeight: "600px",
-                borderRadius: 10,
-                marginBottom: "15px",
-              }}
-            >
-              <img
-                src={imagePath}
-                alt={title}
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  maxWidth: "600px",
-                  maxHeight: "600px",
-                  objectFit: "contain",
-                  borderRadius: 10,
-                }}
-              />
-            </div>
-
-            <h2 className="card-title">{title}</h2>
-            <h6>
-              <div className="link-button">Lifestyle</div>
-            </h6>
-            <time className="article-date">{formattedDate}</time>
-            <p className="card-text">{truncatedContent}</p>
-          </article>
-        ) : (
-          <article
-            className="card-body"
-            style={{
-              display: "flex",
-              flexDirection: "row",
-            }}
+    <Link href={postPath}>
+      <article className={`${type === "small" ? "flex-grow-0 pt-0" : ""}`}>
+        {showImage && (
+          <div
+            className={`img-container ${
+              type === "large" ? "img-container-larger" : "img-container-medium"
+            }`}
           >
-            {showImageSmallSize && (
-              <div
-                className="card-img-top"
-                style={{
-                  margin: "0 15px 0 0",
-                  maxWidth: "150px",
-                  maxHeight: "150px",
-                }}
-              >
-                <img
-                  src={imagePath}
-                  alt={title}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    borderRadius: 10,
-                  }}
-                />
-              </div>
-            )}
-            <div>
-              <h2 className="card-title">{title}</h2>
-              <h6>
-                <div className="link-button">Lifestyle</div>
-              </h6>
-              <time className="article-date">{formattedDate}</time>
-            </div>
-          </article>
+            <img
+              className={`card-img-top img-fluid ${
+                type === "large" ? "img-top-larger" : "img-top-medium"
+              }`}
+              src={imagePath}
+              alt={title}
+            />
+          </div>
         )}
-      </Link>
-      {postFull && (
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
-        >
-          {tagItemsMock.map((tag) => (
-            <Link
-              key={tag.name}
-              href={tag.link}
-              style={{
-                display: "inline-block",
-                padding: "5px 10px",
-                margin: "5px",
-                backgroundColor: "#f0f0f0",
-                color: "#333",
-                borderRadius: "5px",
-                textDecoration: "none",
-                fontSize: "14px",
-                transition: "background-color 0.3s ease",
-                textWrap: "nowrap",
-                width: "fit-content",
-              }}
-            >
-              {tag.name}
-            </Link>
-          ))}
+
+        <div>
+          <h2 className={`card-title ${type === "small" ? "h5 my-4" : ""}`}>
+            {type === "small" ? (
+              <>
+                <small>
+                  <time className="article-date">{formattedDate}</time>
+                </small>
+                {` - ${title}`}
+              </>
+            ) : (
+              title
+            )}
+          </h2>
+          {type !== "small" && (
+            <>
+              <h6 className="mb-2">
+                <div className="badge bg-secondary me-1 mt-2">Lifestyle</div>
+              </h6>
+              <small className="d-block mb-2">
+                <time className="article-date">{formattedDate}</time>
+              </small>
+              <p className="card-text mb-3">{firstSentence}</p>
+            </>
+          )}
         </div>
-      )}
-    </div>
+        {type !== "small" && (
+          <div className="d-flex justify-content-center flex-wrap">
+            {tagItemsMock.map((tag) => (
+              <span key={tag.name} className="badge bg-secondary me-1 mb-1">
+                {tag.name}
+              </span>
+            ))}
+          </div>
+        )}
+      </article>
+    </Link>
   );
 }
 

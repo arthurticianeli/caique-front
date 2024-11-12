@@ -1,8 +1,8 @@
 import PostContent from "@/components/posts/post-detail/post-content";
 import { IPost } from "@/interfaces/IPost";
+import { postsMock } from "@/mocks/postsMock";
 import { GetStaticPropsContext, GetStaticPropsResult } from "next";
 import Head from "next/head";
-import { postsMock } from "..";
 
 interface PostPageProps {
   post: IPost;

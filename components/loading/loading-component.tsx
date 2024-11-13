@@ -1,5 +1,3 @@
-import "./loading-component.css";
-
 const LoadingComponent = () => {
   return (
     <div className="loadingContainer">

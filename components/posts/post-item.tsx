@@ -1,8 +1,6 @@
 import { IPost } from "@/interfaces/IPost";
 import { formatDate } from "date-fns";
 import Link from "next/link";
-import "./styles.css";
-
 interface IPostItemProps {
   readonly post: IPost;
   readonly type: "large" | "medium" | "small";

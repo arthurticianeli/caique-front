@@ -7,6 +7,7 @@ function Logo() {
       alt="Cauique Marquez Logo"
       width={1000}
       height={300}
+      className="img-fluid"
     />
   );
 }

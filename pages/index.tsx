@@ -1,20 +1,12 @@
+import MainNavigation from "@/components/layout/main-navigation";
 import PostItem from "@/components/posts/post-item";
-import "@/components/posts/styles.css";
 import { postsMock } from "@/mocks/postsMock";
-import Head from "next/head";
 
 export default function Home() {
   return (
     <>
-      <Head>
-        <title>Caique Marquez Blog</title>
-        <meta
-          name="description"
-          content="Notícias sobre Gramado - Rio Grande do Sul"
-        />
-      </Head>
-      <section className="container">
-        <h1>Notícias sobre Gramado - Rio Grande do Sul</h1>
+      <MainNavigation />
+      <section className="container mt-3">
         <div className="row g-5">
           <div className="col-12 col-md-3 order-2 order-md-1">
             {postsMock.slice(1, 2).map((post) => (

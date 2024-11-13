@@ -17,6 +17,11 @@ export default function Document() {
           integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
           crossOrigin="anonymous"
         ></script>
+        <title>Caique Marquez Blog</title>
+        <meta
+          name="description"
+          content="Notícias sobre Gramado - Rio Grande do Sul"
+        />
       </Head>
       <body>
         <Main />

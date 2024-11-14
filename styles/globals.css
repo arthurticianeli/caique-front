@@ -68,3 +68,7 @@ button {
 .custom-navbar {
   background-color: var(--color-secondary) !important;
 }
+
+.custom-footer {
+  background-color: var(--color-secondary) !important;
+}

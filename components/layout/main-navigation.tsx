@@ -12,7 +12,7 @@ function MainNavigation() {
       </div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light custom-navbar">
         <div
-          className="container-fluid container  "
+          className="container-fluid container"
           style={{ position: "relative" }}
         >
           <button
@@ -23,8 +23,9 @@ function MainNavigation() {
             aria-controls="navbarNavDarkDropdown"
             aria-expanded="false"
             aria-label="Toggle navigation"
+            style={{ border: "none" }}
           >
-            <span className="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon" />
           </button>
           <div className="collapse navbar-collapse" id="navbarNavDarkDropdown">
             <ul className="navbar-nav mx-auto">
@@ -60,7 +61,7 @@ function MainNavigation() {
               </li>
             </ul>
           </div>
-          <div className="position-absolute" style={{ top: 0, right: 0 }}>
+          <div className="position-absolute" style={{ top: 0, right: 12 }}>
             <form className="ms-auto">
               <div className="input-group">
                 <input
@@ -69,7 +70,7 @@ function MainNavigation() {
                   placeholder="Buscar"
                   aria-label="Buscar"
                 />
-                <button className="btn btn-outline-secondary" type="submit">
+                <button className="btn" type="submit">
                   <i className="bi bi-search"></i>
                 </button>
               </div>

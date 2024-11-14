@@ -5,7 +5,7 @@ function Logo() {
     <Image
       src="/images/site/LOGO-OFICIAL.png"
       alt="Cauique Marquez Logo"
-      width={1000}
+      width={600}
       height={300}
       className="img-fluid"
     />

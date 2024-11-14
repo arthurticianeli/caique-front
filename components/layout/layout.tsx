@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import Footer from "./footer";
 import MainNavigation from "./main-navigation";
 
 interface LayoutProps {
@@ -10,6 +11,7 @@ function Layout({ children }: LayoutProps) {
     <>
       <MainNavigation />
       {children}
+      <Footer />
     </>
   );
 }

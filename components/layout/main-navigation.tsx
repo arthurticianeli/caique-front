@@ -10,9 +10,9 @@ function MainNavigation() {
           <Logo />
         </Link>
       </div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light ">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light custom-navbar">
         <div
-          className="container-fluid container"
+          className="container-fluid container  "
           style={{ position: "relative" }}
         >
           <button
@@ -30,17 +30,32 @@ function MainNavigation() {
             <ul className="navbar-nav mx-auto">
               <li className="nav-item mt-2 mt-lg-0 me-2 me-lg-4">
                 <Link href="/" className="nav-link">
-                  Principal
+                  <div style={{ color: "white" }}>Principal</div>
                 </Link>
               </li>
               <li className="nav-item me-2 me-lg-4">
                 <Link href="/posts" className="nav-link">
-                  Posts
+                  <div style={{ color: "white" }}>Categoria A</div>
+                </Link>
+              </li>
+              <li className="nav-item me-2 me-lg-4">
+                <Link href="/posts" className="nav-link">
+                  <div style={{ color: "white" }}>Categoria B</div>
+                </Link>
+              </li>
+              <li className="nav-item me-2 me-lg-4">
+                <Link href="/posts" className="nav-link">
+                  <div style={{ color: "white" }}>Categoria C</div>
+                </Link>
+              </li>
+              <li className="nav-item me-2 me-lg-4">
+                <Link href="/posts" className="nav-link">
+                  <div style={{ color: "white" }}>Categoria D</div>
                 </Link>
               </li>
               <li className="nav-item me-2 me-lg-4">
                 <Link href="/contact" className="nav-link">
-                  Contact
+                  <div style={{ color: "white" }}>Contact</div>
                 </Link>
               </li>
             </ul>

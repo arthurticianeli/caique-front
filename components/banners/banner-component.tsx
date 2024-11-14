@@ -1,8 +1,17 @@
 import { IBanner } from "@/interfaces/IBanner";
 import { bannersMockup } from "@/mocks/bannersMock";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
-function BannerComponent() {
+interface BannerComponentProps {
+  startIndex: number;
+  numberOfBanners: number;
+}
+
+function BannerComponent({
+  startIndex,
+  numberOfBanners,
+}: BannerComponentProps) {
   const [banners, setBanners] = useState<IBanner[]>([]);
 
   useEffect(() => {
@@ -20,12 +29,31 @@ function BannerComponent() {
     fetchBannerData();
   }, []);
 
+  const sortedBanners = banners.toSorted((a, b) => a.priority - b.priority);
+  const selectedBanners = sortedBanners.slice(
+    startIndex,
+    startIndex + numberOfBanners
+  );
+
+  const getColClass = () => {
+    if (numberOfBanners === 1) return "col-12";
+    if (numberOfBanners === 2) return "col-12 col-md-6";
+    if (numberOfBanners === 3) return "col-12 col-md-4";
+    if (numberOfBanners === 4) return "col-12 col-md-3";
+    return "col-12 col-md-6 col-lg-4";
+  };
+
   return (
-    <div>
-      {banners.map((banner, index) => (
-        <div key={index}>
-          <img src={banner.url} alt={`Banner ${index}`} />
-          <p>Prioridade: {banner.priority}</p>
+    <div className="row my-4">
+      {selectedBanners.map((banner, index) => (
+        <div key={index} className={`${getColClass()} mb-4`}>
+          <Image
+            src={banner.url}
+            alt={`Banner ${index}`}
+            width={1200}
+            height={1000}
+            className="img-fluid"
+          />
         </div>
       ))}
     </div>

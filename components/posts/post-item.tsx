@@ -1,5 +1,6 @@
 import { IPost } from "@/interfaces/IPost";
 import { formatDate } from "date-fns";
+import Image from "next/image";
 import Link from "next/link";
 interface IPostItemProps {
   readonly post: IPost;
@@ -7,21 +8,11 @@ interface IPostItemProps {
   readonly showImage?: boolean;
 }
 
-const tagItemsMock = [
-  { name: "Design", link: "#" },
-  { name: "Development", link: "#" },
-  { name: "Travel", link: "#" },
-  { name: "Web-design", link: "#" },
-  { name: "Marketing", link: "#" },
-  { name: "Research", link: "#" },
-];
-
 function PostItem({ post, type, showImage = true }: IPostItemProps) {
-  const { title, content, image, date, slug } = post;
+  const { title, content, image, date, slug, category, tags } = post;
 
   const postPath = `/posts/${slug}`;
-  //   const imagePath = `/images/posts/post-slug/423-500x1000.jpg`;
-  const imagePath = `/images/posts/post-slug/1024-1000x1000.jpg`;
+  const imagePath = `/images/posts/post-slug/${image}`;
 
   let formattedDate = "Data inválida";
 
@@ -34,59 +25,86 @@ function PostItem({ post, type, showImage = true }: IPostItemProps) {
 
   const firstSentence = content.split(". ")[0] + ".";
 
+  const renderPostContent = () => {
+    switch (type) {
+      case "small":
+        return (
+          <div className="d-flex row">
+            {showImage ? (
+              <>
+                <Image
+                  className="img-small-side"
+                  src={imagePath}
+                  alt={title}
+                  width={150}
+                  height={150}
+                  style={{ objectFit: "cover" }}
+                />
+                <div>
+                  <h6 className="mt-2">{title}</h6>
+                </div>
+              </>
+            ) : (
+              <div>
+                <div>
+                  <ul>
+                    <li style={{ listStyle: "outside" }}>
+                      <h6>{title}</h6>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+
+      case "medium":
+        return (
+          <>
+            <div className="ratio ratio-16x9">
+              <Image
+                className="img-medium"
+                src={imagePath}
+                alt={title}
+                layout="fill"
+                style={{ objectFit: "cover" }}
+              />
+            </div>
+
+            <div className="badge bg-secondary me-1 mt-2">{category}</div>
+
+            <h3>{title}</h3>
+            <p>{firstSentence}</p>
+          </>
+        );
+      case "large":
+        return (
+          <>
+            <div className="ratio ratio-16x9">
+              <Image
+                className="img-large"
+                src={imagePath}
+                alt={title}
+                layout="fill"
+                style={{ objectFit: "cover" }}
+              />
+            </div>
+
+            <div className="badge bg-secondary me-1 mt-2">{category}</div>
+
+            <h2>{title}</h2>
+            <p>{firstSentence}</p>
+          </>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <Link href={postPath}>
       <article className={`${type === "small" ? "flex-grow-0 pt-0" : ""}`}>
-        {showImage && (
-          <div
-            className={`img-container ${
-              type === "large" ? "img-container-larger" : "img-container-medium"
-            }`}
-          >
-            <img
-              className={`card-img-top img-fluid ${
-                type === "large" ? "img-top-larger" : "img-top-medium"
-              }`}
-              src={imagePath}
-              alt={title}
-            />
-          </div>
-        )}
-
-        <div>
-          <h2 className={`card-title ${type === "small" ? "h5 my-4" : ""}`}>
-            {type === "small" ? (
-              <>
-                <small>
-                  <time className="article-date">{formattedDate}</time>
-                </small>
-                {` - ${title}`}
-              </>
-            ) : (
-              title
-            )}
-          </h2>
-          {type !== "small" && (
-            <>
-              <h6 className="mb-2">
-                <div className="badge bg-secondary me-1 mt-2">Lifestyle</div>
-              </h6>
-              <small className="d-block mb-2">
-                <time className="article-date">{formattedDate}</time>
-              </small>
-              <p className="card-text mb-3">{firstSentence}</p>
-            </>
-          )}
-        </div>
-        {type !== "small" && (
-          <div className="d-flex justify-content-center flex-wrap">
-            {tagItemsMock.map((tag) => (
-              <span key={tag.name} className="badge bg-secondary me-1 mb-1">
-                {tag.name}
-              </span>
-            ))}
-          </div>
-        )}
+        {renderPostContent()}
       </article>
     </Link>
   );

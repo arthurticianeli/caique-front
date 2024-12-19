@@ -1,61 +1,71 @@
 import { IBanner } from "@/interfaces/IBanner";
-import { bannersMockup } from "@/mocks/bannersMock";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
 interface BannerComponentProps {
-  startIndex: number;
-  numberOfBanners: number;
+  banners: IBanner[];
+  interval?: number; // Intervalo entre as transições (em ms)
+  fluid?: boolean; // Define se o banner é da página principal
 }
 
-function BannerComponent({
-  startIndex,
-  numberOfBanners,
-}: BannerComponentProps) {
-  const [banners, setBanners] = useState<IBanner[]>([]);
+function BannerComponent({ banners, interval = 3000, fluid }: BannerComponentProps) {
+  const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
 
-  useEffect(() => {
-    async function fetchBannerData() {
-      try {
-        // const response = await fetch("URL_DA_API");
-        // const data = await response.json();
-        // setBanners(data);
-        setBanners(bannersMockup);
-      } catch (error) {
-        console.error("Erro ao buscar os dados dos banners:", error);
-      }
+  // Divide os banners em grupos de tamanho dinâmico
+  const groupBanners = (banners: IBanner[], groupSize: number) => {
+    const grouped: IBanner[][] = [];
+    for (let i = 0; i < banners.length; i += groupSize) {
+      grouped.push(banners.slice(i, i + groupSize));
     }
+    return grouped;
+  };
 
-    fetchBannerData();
-  }, []);
+  // Define o tamanho do grupo com base na quantidade de itens
+  const groupSize = Math.min(banners.length, 3); // Máximo de 3 banners por grupo
+  const groupedBanners = groupBanners(banners, groupSize);
 
-  const sortedBanners = banners.toSorted((a, b) => a.priority - b.priority);
-  const selectedBanners = sortedBanners.slice(
-    startIndex,
-    startIndex + numberOfBanners
-  );
+  // Alterna automaticamente entre os grupos
+  useEffect(() => {
+    if (groupedBanners.length > 1) {
+      const timer = setInterval(() => {
+        setCurrentGroupIndex((prevIndex) => (prevIndex + 1) % groupedBanners.length);
+      }, interval);
 
-  const getColClass = () => {
-    if (numberOfBanners === 1) return "col-12";
-    if (numberOfBanners === 2) return "col-12 col-md-6";
-    if (numberOfBanners === 3) return "col-12 col-md-4";
-    if (numberOfBanners === 4) return "col-12 col-md-3";
-    return "col-12 col-md-6 col-lg-4";
+      return () => clearInterval(timer); // Limpa o intervalo ao desmontar o componente
+    }
+  }, [groupedBanners, interval]);
+
+  // Define classes dinâmicas para as colunas com base na quantidade de itens
+  const getColClass = (size: number) => {
+    switch (size) {
+      case 1:
+        return "col-12";
+      case 2:
+        return "col-12 col-md-6";
+      case 3:
+        return "col-12 col-md-4";
+      default:
+        return "col-12 col-md-6 col-lg-4";
+    }
   };
 
   return (
-    <div className="row my-4">
-      {selectedBanners.map((banner, index) => (
-        <div key={index} className={`${getColClass()} mb-4`}>
-          <Image
-            src={banner.url}
-            alt={`Banner ${index}`}
-            width={1200}
-            height={1000}
-            className="img-fluid"
-          />
-        </div>
-      ))}
+    <div className={`${fluid ? "container-fluid" : "container"}`}>
+      <div className="row mb-4">
+        {groupedBanners[currentGroupIndex]?.map((banner) => (
+          <div key={banner.id} className={`${getColClass(groupSize)} py-2`}>
+            <a href={`https://${banner.link}`} target="_blank" rel={"noreferrer"}>
+              <Image
+                src={`/imagens/banners/${banner.image}`}
+                alt={banner.title}
+                width={1000}
+                height={200}
+                className="img-fluid"
+              />
+            </a>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -1,16 +1,26 @@
-import Image from "next/image";
+import useMediaQuery from "@/hooks/useMediaQuery";
+import { IPost } from "@/interfaces/IPost";
+import ImageVideo from "../image-video";
 
 interface IPostHeaderProps {
-  readonly title: string;
-  readonly image: string;
+  post: IPost;
 }
 
-function PostHeader({ title, image }: IPostHeaderProps) {
+function PostHeader({ post }: IPostHeaderProps) {
+  const { isMobile } = useMediaQuery();
+
   return (
     <header>
-      <h1>{title}</h1>
-      <Image src={image} alt={title} width={200} height={150} />
-    </header>
+      <div className="container container-post" >
+        <h1>{post?.post_title}</h1>
+        <time>
+          <small>Publicado no dia de {post?.post_date}</small>
+        </time>
+      </div>
+      <div className={`${isMobile ? "" : "container container-post"}`}>
+        <ImageVideo post={post} showYoutubePlayer={!!post.post_video} />
+      </div>
+    </header >
   );
 }
 

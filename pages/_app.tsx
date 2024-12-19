@@ -1,19 +1,27 @@
 import Layout from "@/components/layout/layout";
+import { BannersProvider } from "@/hooks/BannersContext";
+import { PostsDestaqueProvider } from "@/hooks/PostsDestaqueContext";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import { AppProps } from "next/app";
 import Head from "next/head";
-import "../components/loading/loading-component.css";
-import "../styles/globals.css";
+import "../styles/custom.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Caique Marquez Blog</title>
+        <title>Caique Marquez</title>
+        <link rel="icon" href="/favicon.ico" />
+
       </Head>
-      <Layout>
-        <Component {...pageProps} />;
-      </Layout>
+      <BannersProvider>
+        <PostsDestaqueProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </PostsDestaqueProvider>
+      </BannersProvider>
     </>
   );
 }

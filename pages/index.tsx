@@ -1,65 +1,50 @@
 import BannerComponent from "@/components/banners/banner-component";
-import MainCategory, {
-  ELayoutCategories,
-} from "@/components/categories/main-category";
-import PostItem from "@/components/posts/post-item";
-import { ECategory } from "@/interfaces/IPost";
-import { postsMock } from "@/mocks/postsMock";
+
+import CategorySection3Col from "@/components/categories/category-section-3-col";
+import CategorySection4Col from "@/components/categories/category-section-4-col";
+import CategorySectionCarouselStories from "@/components/categories/category-section-carousel-stories";
+import CategorySectionSmall from "@/components/categories/category-section-small";
+import DestaqueCategory from "@/components/categories/destaque-category";
+import LayoutCategory from "@/components/categories/layout-category";
+import PostHighlights from "@/components/posts/post-highlights";
+import { useBanners } from "@/hooks/BannersContext";
+import { ECategories } from "@/interfaces/ECategories";
+import modalStoriePostsMock from "@/mocks/modalStoriePostos";
+import "../styles/custom.css";
 
 export default function Home() {
+  const { banners } = useBanners();
+
   return (
-    <section className="container mt-3">
-      <BannerComponent numberOfBanners={2} startIndex={0} />
-      <div className="row g-5">
-        <div className="col-12 col-md-3 order-2 order-md-1">
-          {postsMock.slice(1, 2).map((post) => (
-            <div className="h-100" key={post.slug}>
-              <PostItem post={post} type="medium" />
-            </div>
-          ))}
-        </div>
-        <div className="col-12 col-md order-1 order-md-2">
-          <div className="h-100">
-            <PostItem post={postsMock[0]} type="large" />
-          </div>
-        </div>
-        <div className="col-12 col-md-3 order-3">
-          <div className="h-100" style={{ paddingLeft: "15px" }}>
-            {postsMock.slice(1, 13).map((post) => (
-              <PostItem
-                post={post}
-                type="small"
-                showImage={false}
-                key={post.slug}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-      <BannerComponent numberOfBanners={3} startIndex={2} />
-      <MainCategory
-        posts={postsMock}
-        category={ECategory.BUSINESS}
-        layout={ELayoutCategories.LAYOUT1}
-      />
-      <BannerComponent numberOfBanners={3} startIndex={5} />
-      <MainCategory
-        posts={postsMock}
-        category={ECategory.ENVIRONMENT}
-        layout={ELayoutCategories.LAYOUT2}
-      />
-      <BannerComponent numberOfBanners={2} startIndex={8} />
-      <MainCategory
-        posts={postsMock}
-        category={ECategory.HEALTH}
-        layout={ELayoutCategories.LAYOUT3}
-      />
-      <BannerComponent numberOfBanners={2} startIndex={10} />
-      <MainCategory
-        posts={postsMock}
-        category={ECategory.SCIENCE}
-        layout={ELayoutCategories.LAYOUT4}
-      />
+    <section className="sectionCustom">
+      <PostHighlights carouselStoryPosts={modalStoriePostsMock} />
+
+      <BannerComponent banners={banners?.slice(0, 2)} />
+
+      <DestaqueCategory />
+
+      <LayoutCategory category={ECategories.geral}>
+        <CategorySectionCarouselStories category={ECategories.geral} />
+      </LayoutCategory>
+
+      <BannerComponent banners={banners?.slice(2, 5)} />
+
+      <CategorySection3Col category={ECategories.gramado_talks} />
+      <CategorySection4Col category={ECategories.programa_do_caique} />
+
+      <BannerComponent banners={banners?.slice(5, 8)} />
+
+      <CategorySectionSmall category={ECategories.politica} />
+      <LayoutCategory category={ECategories.turismo}>
+        <CategorySectionCarouselStories category={ECategories.turismo} />
+      </LayoutCategory>
+
+      <BannerComponent banners={banners?.slice(8, 11)} />
+
+      <CategorySection4Col category={ECategories.economia} />
+      <CategorySectionSmall category={ECategories.cultura} />
+
+      <BannerComponent banners={banners?.slice(11)} />
     </section>
   );
 }

@@ -1,84 +1,116 @@
+import useMediaQuery from "@/hooks/useMediaQuery";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import Logo from "./logo";
+import SearchForm from "./nav-search-form";
+import NavbarLinks from "./navbar-links";
 
 function MainNavigation() {
+  const { isMobile, isDesktopLg, isDesktopXl } = useMediaQuery();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const [isSearchVisibleDesktop, setIsSearchVisibleDesktop] = useState(false);
+  const navbarCollapseRef = useRef<HTMLDivElement>(null);
+
+  const handleNavItemClick = () => {
+    if (navbarCollapseRef.current && navbarCollapseRef.current.classList.contains("show")) {
+      navbarCollapseRef.current.classList.remove("show");
+    }
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const toggleSearchVisibility = () => {
+    setIsSearchVisible((prev) => !prev);
+  };
+  const toggleSearchVisibilityDesktop = () => {
+    setIsSearchVisibleDesktop((prev) => !prev);
+  };
+
   return (
-    <>
-      <div className="d-flex justify-content-center align-items-center m-3">
-        <Link href="/">
-          <Logo />
-        </Link>
-      </div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light custom-navbar">
-        <div
-          className="container-fluid container"
-          style={{ position: "relative" }}
-        >
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavDarkDropdown"
-            aria-controls="navbarNavDarkDropdown"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-            style={{ border: "none" }}
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNavDarkDropdown">
-            <ul className="navbar-nav mx-auto">
-              <li className="nav-item mt-2 mt-lg-0 me-2 me-lg-4">
-                <Link href="/" className="nav-link">
-                  <div style={{ color: "white" }}>Principal</div>
-                </Link>
-              </li>
-              <li className="nav-item me-2 me-lg-4">
-                <Link href="/posts" className="nav-link">
-                  <div style={{ color: "white" }}>Categoria A</div>
-                </Link>
-              </li>
-              <li className="nav-item me-2 me-lg-4">
-                <Link href="/posts" className="nav-link">
-                  <div style={{ color: "white" }}>Categoria B</div>
-                </Link>
-              </li>
-              <li className="nav-item me-2 me-lg-4">
-                <Link href="/posts" className="nav-link">
-                  <div style={{ color: "white" }}>Categoria C</div>
-                </Link>
-              </li>
-              <li className="nav-item me-2 me-lg-4">
-                <Link href="/posts" className="nav-link">
-                  <div style={{ color: "white" }}>Categoria D</div>
-                </Link>
-              </li>
-              <li className="nav-item me-2 me-lg-4">
-                <Link href="/contact" className="nav-link">
-                  <div style={{ color: "white" }}>Contact</div>
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className="position-absolute" style={{ top: 0, right: 12 }}>
-            <form className="ms-auto">
-              <div className="input-group">
-                <input
-                  className="form-control"
-                  type="search"
-                  placeholder="Buscar"
-                  aria-label="Buscar"
-                />
-                <button className="btn" type="submit">
-                  <i className="bi bi-search"></i>
-                </button>
+    <header
+      className={`main-navigation fixed-top bg-white ${isScrolled ? "scrolled" : ""}`}
+    >
+      <div className={`${isDesktopXl ? "container" : ""}`}>
+        <nav className="navbar navbar-expand-lg mx-3">
+          <div className={`d-flex ${isDesktopLg || isDesktopXl ? "" : "w-100"} justify-content-between`}>
+            {/* Logo */}
+            {!isSearchVisible || !isMobile ?
+              <Link href="/" className="navbar-brand">
+                <Logo isScrolled={isScrolled} />
+              </Link> : <></>
+            }
+
+            {/* Botões de alternância para dispositivos móveis */}
+            <div className="d-flex align-items-center">
+              <div className={`search-input-container ${isSearchVisible ? "visible" : ""} ms-2`}>
+                <SearchForm />
               </div>
-            </form>
+              <button
+                className="navbar-toggler border-0"
+                type="button"
+                onClick={toggleSearchVisibility}
+                aria-label="Toggle search"
+              >
+                {isSearchVisible ? (
+                  <i className="bi bi-x fs-5"></i>
+                ) : (
+                  <i className="bi bi-search fs-5"></i>
+                )}
+              </button>
+
+              <button
+                className="navbar-toggler border-0 "
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarContent"
+                aria-controls="navbarContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <i className="bi bi-list fs-4"></i>
+              </button>
+            </div>
           </div>
-        </div>
-      </nav>
-    </>
+
+          {/* Menu de navegação */}
+          <div className="collapse navbar-collapse" id="navbarContent" ref={navbarCollapseRef}>
+            <ul className="navbar-nav w-100 justify-content-center">
+              <NavbarLinks onNavItemClick={handleNavItemClick} />
+            </ul>
+            {isDesktopLg || isDesktopXl ?
+              <div className="d-flex ms-auto">
+                <div className={`search-input-container-desktop ${isSearchVisibleDesktop ? "visible" : ""} ms-2`}>
+                  <SearchForm />
+                </div>
+                <button
+                  className="border-0 bg-transparent"
+                  type="button"
+                  onClick={toggleSearchVisibilityDesktop}
+                  aria-label="Toggle search"
+                >
+                  {isSearchVisibleDesktop ? (
+                    <i className="bi bi-x fs-5"></i>
+                  ) : (
+                    <i className="bi bi-search fs-5"></i>
+                  )}
+                </button>
+              </div> : <></>
+            }
+          </div>
+        </nav>
+      </div>
+    </header>
   );
 }
 

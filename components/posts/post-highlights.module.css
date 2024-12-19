@@ -1,0 +1,61 @@
+.container {
+  position: relative;
+}
+
+.card {
+  margin: auto;
+  cursor: pointer;
+}
+
+.circle {
+  width: 80px;
+  height: 80px;
+  border: 4px solid #00374c;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.circle:hover {
+  background-color: #b9e6ef;
+  transform: scale(1.1);
+}
+
+.moreStories {
+  background-color: white;
+}
+
+.title {
+  margin-top: 0.5rem;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #00374c;
+  z-index: -1;
+  width: 100%;
+  height: 180px;
+}
+
+@media (max-width: 768px) {
+  .circle {
+    width: 60px;
+    height: 60px;
+  }
+
+  .title {
+    font-size: 10px;
+  }
+
+  .background {
+    height: 160px;
+  }
+}

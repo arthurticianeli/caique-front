@@ -1,4 +1,7 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
+
+
 
 function useFetch<T>(url: string, initialData: T) {
   const [data, setData] = useState<T>(initialData);
@@ -7,15 +10,9 @@ function useFetch<T>(url: string, initialData: T) {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(url)
+    axios.get<T>(url)
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setData(data);
+        setData(response.data);
         setIsLoading(false);
       })
       .catch((error) => {

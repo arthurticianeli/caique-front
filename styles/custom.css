@@ -1,0 +1,254 @@
+:root {
+  --primary: #00374c;
+  --secondary: #3d9ecf;
+  --success: #0099dd;
+  --info: #a1c7e0;
+  --warning: #ff9933;
+  --danger: #e3371e;
+  --light-blue: #79fdfc;
+  --extra-light-blue: #d2fbf9;
+  --grey-800: hsl(276, 5%, 20%);
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  color: var(--grey-800);
+  margin: 0;
+}
+
+.bg-primary,
+.btn-primary {
+  background-color: var(--primary) !important;
+}
+.bg-secondary,
+.btn-secondary {
+  background-color: var(--secondary) !important;
+}
+.bg-tertiary,
+.btn-tertiary {
+  background-color: var(--tertiary) !important;
+}
+.bg-success,
+.btn-success {
+  background-color: var(--success) !important;
+}
+.bg-info,
+.btn-info {
+  background-color: var(--info) !important;
+}
+.bg-warning,
+.btn-warning {
+  background-color: var(--warning) !important;
+}
+.bg-danger .btn-danger {
+  background-color: var(--danger) !important;
+}
+.nav-link {
+  color: var(--primary) !important ;
+}
+.nav-link:hover {
+  color: var(--warning) !important ;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a {
+  color: var(--grey-800);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+}
+
+a {
+  text-decoration: none;
+}
+
+.custom-navbar {
+  background-color: white !important;
+}
+
+.custom-footer {
+  background-color: var(--primary) !important;
+  font-size: 14px;
+}
+.custom-footer * {
+  color: white !important;
+}
+
+ul,
+li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.carousel-indicators {
+  bottom: -50px;
+}
+
+.carousel-indicators [data-bs-target] {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--secondary);
+  opacity: 0.5;
+}
+
+.carousel-indicators .active {
+  background-color: var(--secondary);
+  opacity: 1;
+}
+
+.nav-link {
+  font-weight: bold;
+  color: var(--primary) !important;
+}
+
+.nav-item {
+  margin-right: 10px;
+}
+
+.nav-bar {
+  background-color: white;
+}
+
+.btn-outline-primary {
+  color: var(--secondary);
+  border-color: var(--secondary);
+}
+
+.btn-outline-primary:hover {
+  color: white;
+  background-color: var(--secondary);
+}
+
+.h3-custom {
+  color: var(--secondary);
+}
+
+.badge {
+  border-radius: 4px;
+  padding: 4px 4px 8px;
+  font-weight: bold;
+  background-color: var(--secondary);
+}
+
+.badge-detail {
+  width: 100%;
+  height: 6px;
+  bottom: 0;
+  right: 0;
+  border-radius: 0 0 4px 4px;
+  border-top: #fff solid 1px;
+}
+
+.badge-absolute {
+  position: absolute;
+  bottom: -13px;
+  left: 0;
+}
+
+.sectionCustom {
+  margin-top: 140px;
+}
+
+.main-navigation {
+  transition: all 0.3s ease-in-out;
+  padding: 1rem 0;
+  box-shadow: none;
+}
+
+.main-navigation.scrolled {
+  padding: 0;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.main-navigation .navbar-toggler {
+  transition: transform 0.3s ease;
+}
+
+.main-navigation .navbar-toggler:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .main-navigation {
+    padding: 0.7rem 0;
+  }
+  .sectionCustom {
+    margin-top: 125px;
+  }
+}
+
+.logo-container {
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+}
+
+.logo-container.scrolled {
+  transform: scale(0.8); /* Ajuste de escala para suavizar o tamanho */
+}
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.search-input-container,
+.search-input-container-desktop {
+  overflow: hidden;
+  max-width: 0;
+  transition: max-width 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+}
+
+.search-input-container-desktop {
+  position: absolute; /* Garante que não afete os itens de navegação */
+  right: 40; /* Alinha o campo de busca à direita */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.search-input-container.visible,
+.search-input-container-desktop.visible {
+  max-width: 250px; /* Expande o campo de busca */
+  opacity: 1; /* Torna visível */
+}
+
+.search-input-container form,
+.search-input-container-desktop form {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-nav {
+  flex-grow: 1; /* Garante que os itens se espalhem no espaço disponível */
+}
+
+.navbar-nav li {
+  margin: 0 10px;
+}
+
+.container-post {
+  max-width: 65vw;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .container-post {
+    max-width: 90vw;
+  }
+}

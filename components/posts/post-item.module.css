@@ -1,0 +1,38 @@
+.container {
+  margin: 0 auto;
+}
+
+.listTitle {
+  font-size: 14px;
+}
+
+.imageContainer {
+  min-width: 150px;
+  max-width: 150px;
+  margin-right: 10px;
+}
+
+.smallTitle {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.smallText {
+  font-size: 14px;
+  color: #666;
+}
+
+.mediumTitle {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.largeTitle {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.postItem {
+  text-decoration: none;
+  color: inherit;
+}
